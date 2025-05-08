@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>John's Rinky Dink Calculator</title>
+    <style>
+        body {text-align: center; background-color: #f4f4f4; font-family: 'Lucida Console', monospace;} 
+        .calculator {background-color: grey; padding: 20px; border-radius: 10px; display: inline-block; margin-top: 50px; position: relative; width: 300px; border: 3px solid darkgrey; font-family: 'Lucida Console', monospace;} 
+        .text-bubble {position: absolute; top: -40px; left: 50%; transform: translateX(-50%); background-color: white; border: 1px solid black; padding: 5px 10px; border-radius: 5px; font-size: 12px; visibility: hidden; white-space: nowrap;} 
+        .title {font-family: 'Comic Sans MS', cursive, sans-serif; font-size: 18px; position: absolute; top: 10px; left: 10px;} 
+        .tiny-boxes {position: absolute; top: 10px; right: 10px; display: flex; gap: 5px;} 
+        .tiny-box {width: 20px; height: 20px; background-color: white; border: 1px solid black; border-radius: 3px;} 
+        .display {width: 100%; height: 50px;
+            background-color: green;
+            color: #013220;
+            text-align: right; font-size: 24px; padding: 10px; border-radius: 5px; margin: 40px 0 15px;
+            border: 2px solid darkgreen; box-sizing: border-box; font-family: 'Lucida Console', monospace;} 
+        .buttons {display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;} 
+        .btn {height: 60px; font-size: 20px;
+            border: 2px solid darkgrey;
+            background-color: lightgrey; cursor: pointer; border-radius: 5px; font-family: 'Lucida Console', monospace;} 
+        .btn:active {background-color: #d3d3d3;} 
+        .home-btn, .help-btn {height: 60px; font-size: 20px; border: 2px solid darkgrey; background-color: lightgrey; cursor: pointer; border-radius: 5px; display: flex; align-items: center; justify-content: center; width: 100%; font-family: 'Lucida Console', monospace;}
+    </style>
+</head>
+<body>
+    <div class="calculator">
+        <div class="title">John's Rinky Dink Calculator</div>
+        <div class="tiny-boxes"><div class="tiny-box"></div><div class="tiny-box"></div><div class="tiny-box"></div>
+        <div id="textBubble" class="text-bubble"></div>
+    </div>
+        <input type="text" id="display" class="display" disabled>
+        <div class="buttons">
+            <button class="btn" onclick="press('7')">7</button><button class="btn" onclick="press('8')">8</button><button class="btn" onclick="press('9')">9</button><button class="btn" onclick="press('+')">+</button>
+            <button class="btn" onclick="press('4')">4</button><button class="btn" onclick="press('5')">5</button><button class="btn" onclick="press('6')">6</button><button class="btn" onclick="press('-')">-</button>
+            <button class="btn" onclick="press('1')">1</button><button class="btn" onclick="press('2')">2</button><button class="btn" onclick="press('3')">3</button><button class="btn" onclick="press('×')">×</button>
+            <button class="btn" onclick="press('0')">0</button><button class="btn" onclick="press('.')">.</button><button class="btn" onclick="calculate()">=</button><button class="btn" onclick="press('÷')">÷</button>
+            <button class="btn" onclick="resetDisplay()">AC</button><button class="btn" onclick="backspace()">←</button><button class="home-btn" onclick="goHome()">Home</button><button class="help-btn" onclick="howToUse()">?</button>
+        </div>
+    </div>
+    <script>
+        function press(value) {document.getElementById('display').value += value;}
+        
+        function calculate() {
+            try {
+                let expression = document.getElementById('display').value;
+                expression = expression.replace(/×/g, '*').replace(/÷/g, '/');
+                let result = Function('return ' + expression)();
+                document.getElementById('display').value = result;
+                
+                let textBubble = document.getElementById('textBubble');
+                if (expression === '1+1' || expression === '2+2') {
+                    textBubble.innerText = "Bruh, you don't need the calculator for that, pull yourself together.";
+                    textBubble.style.visibility = 'visible';
+                } else if (result === 3325) {
+                    textBubble.innerText = "That's my Birthday. What? Nothing. Just saying.";
+                    textBubble.style.visibility = 'visible';
+                } else {
+                    textBubble.style.visibility = 'hidden';
+                }
+            } catch {
+                document.getElementById('display').value = 'Error';
+            }
+        }
+        
+        function resetDisplay() {
+            document.getElementById('display').value = '';
+            document.getElementById('textBubble').style.visibility = 'hidden';
+        }
+        
+        function backspace() {
+            let display = document.getElementById('display');
+            display.value = display.value.slice(0, -1);
+            document.getElementById('textBubble').style.visibility = 'hidden';
+        }
+        
+        function goHome() {window.location.href = 'index.html';}
+        
+        function howToUse() {window.location.href = 'Calocorator About or Manual.html';}
+    </script>
+</body>
+</html>
